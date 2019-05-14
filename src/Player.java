@@ -1,15 +1,25 @@
-public class Player {
+public abstract class Player {
 
     protected String name;
     protected String image;
     protected int live;
     protected int attack;
 
+
     public Player(String name, String image, int live, int attack) {
         this.name = name;
         this.image = image;
         this.live = live;
         this.attack = attack;
+    }
+
+    @Override
+    public String toString() {
+        return "Player : { name : " + name + " , image : " + image + " , live : " + live + " , attack : " + attack;
+    }
+
+    public String getType(){
+        return ("");
     }
 
     // We will create the SETTERS

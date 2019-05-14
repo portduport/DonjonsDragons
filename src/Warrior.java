@@ -11,7 +11,17 @@ public class Warrior extends Player {
         this.shield = shield;
     }
 
-// Setter for the String "shield"
+    @Override
+    public String toString() {
+        return super.toString() + " , shield : " + shield + " }";
+    }
+
+    @Override
+    public String getType() {
+        return ("Shield");
+    }
+
+    // Setter for the String "shield"
     public void setShield(String shield) {
         this.shield = shield;
     }

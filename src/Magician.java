@@ -9,6 +9,16 @@ public class Magician extends Player {
         this.filter = filter;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " , filter : " + filter + " }";
+    }
+
+    @Override
+    public String getType() {
+        return ("filter");
+    }
+
     // Setter for the String "filter"
     public void setFilter(String filter) {
         this.filter = filter;
