@@ -8,6 +8,10 @@ public class Weapon {
         this.attackLevel = attackLevel;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()  + " { weapon name : " + weaponName + " , attack level : " + attackLevel + " }";
+    }
 
     //Setters
 

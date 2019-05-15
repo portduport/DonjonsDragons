@@ -2,10 +2,11 @@
 public class Magician extends Player {
 
     private String filter;
-    Spell conjuro = new Spell("gsdfgs",6);
+    Spell spell;
 
-    public Magician(String name, String image, int live, int attack, String filter) {
+    public Magician(String name, String image, int live, int attack, Spell spell, String filter) {
         super(name, image, live, attack);
+        this.spell = spell;
         this.filter = filter;
     }
 
@@ -23,7 +24,16 @@ public class Magician extends Player {
     public void setFilter(String filter) {
         this.filter = filter;
     }
+
+    public void setSpell(Spell spell) {
+        this.spell = spell;
+    }
+
     public String getFilter() {
         return filter;
+    }
+
+    public Spell getSpell() {
+        return spell;
     }
 }

@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Questions {
 
-    private String insert;
+    public String insert;
     private int num;
 
-    public void questions (String asking){
+    public void questions(String asking) {
         Scanner question = new Scanner(System.in);
         System.out.println(asking);
         insert = question.nextLine();

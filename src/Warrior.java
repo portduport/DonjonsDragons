@@ -2,18 +2,19 @@
 public class Warrior extends Player {
 
     private String shield;
-    Weapon weapon = new Weapon("espada",12);
+    Weapon weapon;
 
 
 
-    public Warrior(String name, String image, int live, int attack, String shield) {
+    public Warrior(String name, String image, int live, int attack, Weapon weapon, String shield) {
         super(name, image, live, attack);
+        this.weapon = weapon;
         this.shield = shield;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " , shield : " + shield + " }";
+        return super.toString() + " , weapon : " + weapon + " , shield : " + shield + " }";
     }
 
     @Override
@@ -26,7 +27,15 @@ public class Warrior extends Player {
         this.shield = shield;
     }
 
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+
     public String getShield() {
         return shield;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 }

@@ -8,6 +8,11 @@ public class Spell {
         this.spellLevel = spellLevel;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()  + " { spell name : " + spellName + " , spell level : " + spellLevel + " }";
+    }
+
     //Setters
 
     public void setSpellName(String spellName) {

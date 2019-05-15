@@ -1,9 +1,6 @@
-import com.sun.deploy.util.ArrayUtil;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
-import java.lang.Object;
 
 
 public class Application {
@@ -15,79 +12,68 @@ public class Application {
         int myPlayer;
         int idPlayer;
         int changePlayer;
+        int rdmLive = 0;
+        int rdmAttack = 0;
+        Spell spell = new Spell("blur", 5);
+        String filter = "";
+        Weapon weapon = new Weapon("blade", 8);
+        String shield = "";
+
+
         ArrayList<Player> PlayersList = new ArrayList<Player>();
-        //Player playersList[] = new Player[14];
 
         do {
-            Scanner player = new Scanner(System.in);
-            System.out.println("Make your choice :");
-            System.out.println("1 - Create a Player");
-            System.out.println("2 - Edit a Player");
-            System.out.println("3 - Remove a Player");
-            System.out.println("99 - Quit the game");
-            typePlayer = player.nextInt();
-
+            typePlayer = intQuestions("Make your choice : " + "\n1 - Create a Player" + "\n2 - Edit a Player" + "\n3 - Remove a Player" + "\n4 - Create Board Game" + "\n99 - Quit the game");
 
             /*If we create a player, we must choose between Warrior or Magician  */
             if (typePlayer == 1) {
-                Scanner kindPlayer = new Scanner(System.in);
-                System.out.println("Make your choice :");
-                System.out.println("1 - Warrior");
-                System.out.println("2 - Magician");
-                myPlayer = kindPlayer.nextInt();
+                myPlayer = intQuestions("Make your choice :" + "\n1 - Warrior" + "\n2 - Magician");
 
                 if (myPlayer == 1 || myPlayer == 2) {
-                    Questions askName = new Questions();
-                    askName.questions("What is the Name of your player :");
-                    String name = askName.getInsert();
+                    String name = strQuestions("What is the Name of your player :");
+                    String image = strQuestions("What is the Image of your player :");
 
-                    Questions askImage = new Questions();
-                    askImage.questions("What is the Image of your player :");
-                    String image = askImage.getInsert();
-
-                    int rdmLive = 0;
                     if (myPlayer == 1) {
                         rdmLive = getRandomNumberInRange(5, 10);
                         System.out.println("Your player's Live is  :" + rdmLive);
-                    } else if (myPlayer == 2) {
+                    } else {
                         rdmLive = getRandomNumberInRange(3, 6);
                         System.out.println("Your player's Live is  :" + rdmLive);
                     }
                     int live = rdmLive;
 
-                    int rdmAttack = 0;
                     if (myPlayer == 1) {
                         rdmAttack = getRandomNumberInRange(5, 10);
                         System.out.println("Your player's Attack is  :" + rdmAttack);
-                    } else if (myPlayer == 2) {
+                    } else {
                         rdmAttack = getRandomNumberInRange(8, 15);
                         System.out.println("Your player's Attack is  :" + rdmAttack);
                     }
                     int attack = rdmAttack;
 
-                    String shield = "";
                     if (myPlayer == 1) {
-                        Questions askShield = new Questions();
-                        askShield.questions("What is the Shield of your player :");
-                        shield = askShield.getInsert();
-                    }
-
-                    String filter = "";
-                    if (myPlayer == 2) {
-                        Questions askFilter = new Questions();
-                        askFilter.questions("What is the Filter of your player :");
-                        filter = askFilter.getInsert();
+                        //Creation of our weapon
+                        String weaponName = strQuestions("What is name of your weapon :");
+                        int attackLevel = intQuestions("What is the level of your weapon :");
+                        weapon = new Weapon(weaponName, attackLevel);
+                        //Creation of our shield
+                        shield = strQuestions("What is the Shield of your player :");
+                    } else {
+                        //Creation of our weapon
+                        String spellName = strQuestions("What is name of your spell :");
+                        int spellLevel = intQuestions("What is the level of your weapon :");
+                        spell = new Spell(spellName, spellLevel);
+                        filter = strQuestions("What is the Filter of your player :");
                     }
 
                     /*We will add the new player to our Array of players  */
 
                     if (myPlayer == 1) {
-                        Player myWarrior = new Warrior(name, image, live, attack, shield);
+                        Player myWarrior = new Warrior(name, image, live, attack, weapon, shield);
                         PlayersList.add(myWarrior);
-                        System.out.println(PlayersList);
-                    }
-                    if (myPlayer == 2) {
-                        Player myMagician = new Magician(name, image, live, attack, filter);
+                        System.out.println(myWarrior);
+                    } else {
+                        Player myMagician = new Magician(name, image, live, attack, spell, filter);
                         PlayersList.add(myMagician);
                         System.out.println(PlayersList);
                     }
@@ -100,51 +86,35 @@ public class Application {
 //                }
                 Scanner editPlayer = new Scanner(System.in);
                 System.out.println("What player you want to edit (write a number from the list) :");
-                for(int i = 0; i < PlayersList.size(); i++) {
+                for (int i = 0; i < PlayersList.size(); i++) {
                     System.out.println(i + " - " + PlayersList.get(i).getName());
                 }
                 idPlayer = editPlayer.nextInt();
                 System.out.println("You want to edit " + idPlayer + " - " + PlayersList.get(idPlayer).getName());
-                Scanner whatEdit = new Scanner(System.in);
-                System.out.println("What do you want to edit ? :");
-                System.out.println("1 - Name");
-                System.out.println("2 - Image");
-                System.out.println("3 - Live");
-                System.out.println("4 - Attack");
-                System.out.println("5 - " + PlayersList.get(idPlayer).getType());
-                changePlayer = whatEdit.nextInt();
+                changePlayer = intQuestions("What do you want to edit ? :" + "\n1 - Name" + "\n2 - Image" + "\n3 - Live" + "\n4 - Attack" + "\n5 - " + PlayersList.get(idPlayer).getType());
+
                 switch (changePlayer) {
                     case 1:
-                        Scanner editName = new Scanner(System.in);
-                        System.out.println("Choose a new name :");
-                        String newName = editName.nextLine();
+                        String newName = strQuestions("Choose a new name :");
                         PlayersList.get(idPlayer).setName(newName);
                         break;
                     case 2:
-                        Scanner editImage = new Scanner(System.in);
-                        System.out.println("Choose a new image :");
-                        String newImage = editImage.nextLine();
+                        String newImage = strQuestions("Choose a new image :");
                         PlayersList.get(idPlayer).setImage(newImage);
                         break;
                     case 3:
-                        Scanner editLive = new Scanner(System.in);
-                        System.out.println("Choose a new live between 5 and 10 :");
-                        int newLive = editLive.nextInt();
+                        int newLive = intQuestions("Choose a new live between 5 and 10 :");
                         PlayersList.get(idPlayer).setLive(newLive);
                         break;
                     case 4:
-                        Scanner editAttack = new Scanner(System.in);
-                        System.out.println("Choose a new attack between 5 and 10 :");
-                        int newAttack = editAttack.nextInt();
+                        int newAttack = intQuestions("Choose a new attack between 5 and 10 :");
                         PlayersList.get(idPlayer).setAttack(newAttack);
                         break;
                     case 5:
-                        Scanner editArmType = new Scanner(System.in);
-                        System.out.println("Choose a new " + PlayersList.get(idPlayer).getType() + " :");
-                        String newArm = editArmType.nextLine();
-                        if(PlayersList.get(idPlayer) instanceof Warrior){
+                        String newArm = strQuestions("Choose a new " + PlayersList.get(idPlayer).getType() + " :");
+                        if (PlayersList.get(idPlayer) instanceof Warrior) {
                             ((Warrior) PlayersList.get(idPlayer)).setShield(newArm);
-                        }else{
+                        } else {
                             ((Magician) PlayersList.get(idPlayer)).setFilter(newArm);
                         }
                         break;
@@ -152,17 +122,17 @@ public class Application {
 
 //                //If we write another number that isn't in our list, we will show a error message
             } else if (typePlayer == 3) {
-                for(int i = 0; i < PlayersList.size(); i++) {
+                for (int i = 0; i < PlayersList.size(); i++) {
                     System.out.println(i + " - " + PlayersList.get(i).getName());
                 }
-                Scanner removePlayer = new Scanner(System.in);
-                System.out.println("What player you want to remove (write a number from the list) :");
-                int rmvPlayer = removePlayer.nextInt();
+                int rmvPlayer = intQuestions("What player you want to remove (write a number from the list) :");
                 PlayersList.remove(rmvPlayer);
-                //playersList = ArrayUtils.removeElement(playersList, rmvPlayer);
 
 
-            } else if (typePlayer != 1 && typePlayer != 2 && typePlayer != 3 && typePlayer != 99) {
+            } else if (typePlayer == 4) {
+                System.out.println(boardGame());
+
+            } else if (typePlayer != 1 && typePlayer != 2 && typePlayer != 3 && typePlayer != 4 && typePlayer != 99) {
                 System.out.println("Please, try to choose one option for the list");
             }
 
@@ -170,6 +140,18 @@ public class Application {
         }
         while (typePlayer != 99);
 
+    }
+
+    private static int intQuestions(String asking) {
+        Scanner question = new Scanner(System.in);
+        System.out.println(asking);
+        return question.nextInt();
+    }
+
+    private static String strQuestions(String asking) {
+        Scanner question = new Scanner(System.in);
+        System.out.println(asking);
+        return question.nextLine();
     }
 
     private static int getRandomNumberInRange(int min, int max) {
@@ -180,6 +162,24 @@ public class Application {
 
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
+    }
+
+    private static ArrayList<String> boardGame() {
+        ArrayList<String> boardGame = new ArrayList<String>();
+        Scanner size = new Scanner(System.in);
+        System.out.println("What is your board game's size :");
+        int boardGameSize = size.nextInt();
+        for (int r = 0; r < boardGameSize; r++) {
+            int dice = getRandomNumberInRange(0, 10);
+            if (dice < 3) {
+                boardGame.add("Bonus !!");
+            } else if (dice > 3 && dice < 6) {
+                boardGame.add("null");
+            } else {
+                boardGame.add("Enemyyyyyy!!!");
+            }
+        }
+        return boardGame;
     }
 
 
